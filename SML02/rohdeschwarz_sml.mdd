@@ -1,0 +1,4854 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MATLABInstrumentDriver>
+   <FileVersion>1.0</FileVersion>
+   <DriverName>rssml</DriverName>
+   <DriverType>MATLAB VXIplug&amp;play</DriverType>
+   <InstrumentType>Signal Generator</InstrumentType>
+   <InstrumentManufacturer>Rohde &amp; Schwarz GmbH</InstrumentManufacturer>
+   <InstrumentModel>SML Series</InstrumentModel>
+   <InstrumentVersion>1.0.1</InstrumentVersion>
+   <Identify/>
+   <Reset/>
+   <Selftest/>
+   <Error/>
+   <CreateInitCode>
+      <Code>function init(obj)
+% This function is called after the object is created.
+% OBJ is the device object.
+% End of function definition - DO NOT EDIT
+</Code>
+   </CreateInitCode>
+   <ConnectInitCode>
+      <Type>MCode</Type>
+      <Code>function init(obj)
+% This function is called after the object is connected.
+% OBJ is the device object.
+% End of function definition - DO NOT EDIT
+</Code>
+   </ConnectInitCode>
+   <CleanupCode>
+      <Type>MCode</Type>
+      <Code>function cleanup(obj)
+% This function is called before the object is disconnected.
+% OBJ is the device object.
+% End of function definition - DO NOT EDIT
+</Code>
+   </CleanupCode>
+   <GroupInfo>
+      <Group>
+         <Name>parent</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="parent1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo/>
+      </Group>
+      <Group>
+         <Name>actionstatus</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="ActionStatus1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>aborttrigger</Name>
+               <Location>actionstatus</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function aborttrigger(obj, SystemToAbort)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_abortTrigger', session, SystemToAbort);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function aborts sweep system.</Description>
+            </Method>
+            <Method>
+               <Name>sendtrigger</Name>
+               <Location>actionstatus</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function sendtrigger(obj, Generator, SystemToTrigger)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_SendTrigger', session, Generator, SystemToTrigger);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sends a trigger.
+</Description>
+            </Method>
+            <Method>
+               <Name>utilcalibration</Name>
+               <Location>actionstatus</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function [CalibrationResults] = utilcalibration(obj, ToCalibrate, Timeout)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+CalibrationResults = libpointer('int8Ptr', repmat(10, 1, 512));
+
+status = calllib(libname, 'rssml_utilCalibration', session, ToCalibrate, Timeout, CalibrationResults);
+
+CalibrationResults = strtrim(char(CalibrationResults.Value));
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function runs selected calibration.
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>automaticlevelcontrol</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="AutomaticLevelControl1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>alcsearch</Name>
+               <Location>automaticlevelcontrol</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function [SearchResult] = alcsearch(obj)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+SearchResult = libpointer('int8Ptr', repmat(10, 1, 512));
+
+status = calllib(libname, 'rssml_ALCSearch', session, SearchResult);
+
+SearchResult = strtrim(char(SearchResult.Value));
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function returns under which conditions the control loop is temporarily closed.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setalcstate</Name>
+               <Location>automaticlevelcontrol</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setalcstate(obj, ALCState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setALCState', session, ALCState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches the level control on or off.
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>calibration</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="Calibration1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>getrefosccalval</Name>
+               <Location>calibration</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function [Value] = getrefosccalval(obj)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+Value = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rssml_getRefOscCalVal', session, Value);
+
+Value = double(Value.Value);
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function gets calibration value for reference oscillator.
+</Description>
+            </Method>
+            <Method>
+               <Name>setattcorrstate</Name>
+               <Location>calibration</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setattcorrstate(obj, Correction)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setAttCorrState', session, Correction);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches attenuation correction ON or OFF.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setlevcalstate</Name>
+               <Location>calibration</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setlevcalstate(obj, LevelCalibration)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setLevCalState', session, LevelCalibration);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches level correction ON or OFF.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>storerefosccalval</Name>
+               <Location>calibration</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function storerefosccalval(obj)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_storeRefOscCalVal', session);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function stores calibration value for reference oscillator.
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>functionexamples</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="FunctionExamples1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>exoutampl</Name>
+               <Location>functionexamples</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function exoutampl(obj, Frequency, Offset, Level, ModulationSource, ModulationDepth, ModulationFrequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_exOutAmpl', session, Frequency, Offset, Level, ModulationSource, ModulationDepth, ModulationFrequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This application function configures RF frequency, selects AM modulation and switches RF output to on. Sequence of functions is:
+
+ - Configure RF frequency
+ - Sets RF Level
+ - Sets AM parameters
+ - Switches RF Output to on 
+
+Note:
+
+This function only shows how to use instrument driver.
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>lfoutput</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="LFOutput1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>configlfoutput</Name>
+               <Location>lfoutput</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configlfoutput(obj, LFOutputState, Frequency, Voltage)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_configLFOutput', session, LFOutputState, Frequency, Voltage);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures LF output.
+
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>lfsweep</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="LFSweep1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>configlfsweep</Name>
+               <Location>lfsweep</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configlfsweep(obj, SweepMode, StartFrequency, StopFrequency, Step, DwellTime)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_configLFSweep', session, SweepMode, StartFrequency, StopFrequency, Step, DwellTime);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures LF sweep.
+
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>lowlevel</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="LowLevel1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>deleteallcorrlists</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function deleteallcorrlists(obj)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_deleteAllCorrLists', session);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function deletes all correction lists from the instrument memory.
+</Description>
+            </Method>
+            <Method>
+               <Name>deletecorrlist</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function deletecorrlist(obj, CorrectionListName)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+CorrectionListName = double(CorrectionListName);
+
+status = calllib(libname, 'rssml_deleteCorrList', session, CorrectionListName);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function deletes the table indicated from the instrument memory.
+</Description>
+            </Method>
+            <Method>
+               <Name>getfreecorrtables</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function [FreeSpace] = getfreecorrtables(obj)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+FreeSpace = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rssml_getFreeCorrTables', session, FreeSpace);
+
+FreeSpace = double(FreeSpace.Value);
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function queries free space.</Description>
+            </Method>
+            <Method>
+               <Name>getlevelcorrpoints</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function [Points] = getlevelcorrpoints(obj)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+Points = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rssml_getLevelCorrPoints', session, Points);
+
+Points = double(Points.Value);
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function returns the number of list elements.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>getlistofcorrlists</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function [ListOfCorrectionLists] = getlistofcorrlists(obj)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+ListOfCorrectionLists = libpointer('int8Ptr', repmat(10, 1, 512));
+
+status = calllib(libname, 'rssml_getListOfCorrLists', session, ListOfCorrectionLists);
+
+ListOfCorrectionLists = strtrim(char(ListOfCorrectionLists.Value));
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function returns a list of Ucor tables.
+</Description>
+            </Method>
+            <Method>
+               <Name>selcorrlist</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function selcorrlist(obj, CorrectionListName)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+CorrectionListName = double(CorrectionListName);
+
+status = calllib(libname, 'rssml_selCorrList', session, CorrectionListName);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects a Ucor table. If there is no table of this name, a new table is created.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setcwfreq</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setcwfreq(obj, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setCWFreq', session, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the frequency for CW operation.
+</Description>
+            </Method>
+            <Method>
+               <Name>setcwfreqreset</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setcwfreqreset(obj, ResetState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setCWFreqReset', session, ResetState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the effect of the recall function on the frequency.
+</Description>
+            </Method>
+            <Method>
+               <Name>setdoublepulsedelay</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setdoublepulsedelay(obj, Delay)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setDoublePulseDelay', session, Delay);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function specifies the delay time from the start of the pulse period to the first edge of the second pulse.
+
+Note:
+
+This function is available with option SML-B3 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setdoublepulsestate</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setdoublepulsestate(obj, State)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setDoublePulseState', session, State);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches the second pulse on or off.
+
+Note:
+
+This function is available with option SML-B3 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setfreqtocorrlist</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setfreqtocorrlist(obj, Frequency, Size)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setFreqToCorrList', session, Frequency, Size);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the frequency data for the table.
+</Description>
+            </Method>
+            <Method>
+               <Name>setlfcwfreq</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setlfcwfreq(obj, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setLFCWFreq', session, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the frequency for the CW mode.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setlffreqman</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setlffreqman(obj, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setLFFreqMan', session, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the frequency in manual mode.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setlffreqmode</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setlffreqmode(obj, OperatingMode)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setLFFreqMode', session, OperatingMode);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function specifies the operating mode and hence by means of which commands the frequency subsystem is controled.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setlfoutputstate</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setlfoutputstate(obj, LFOutputState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setLFOutputState', session, LFOutputState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches on or off the LF output.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setlfstartfreq</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setlfstartfreq(obj, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setLFStartFreq', session, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function defines the starting value of the frequency for the sweep.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setlfstopfreq</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setlfstopfreq(obj, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setLFStopFreq', session, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function defines the end value of the frequency for the sweep.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setlfsweepdwelltime</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setlfsweepdwelltime(obj, Time)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setLFSweepDwellTime', session, Time);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the time per frequency step (dwell).
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setlfsweepmode</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setlfsweepmode(obj, SweepMode)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setLFSweepMode', session, SweepMode);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the sweep mode.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setlfsweepspac</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setlfsweepspac(obj, Spacing)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setLFSweepSpac', session, Spacing);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects whether the steps have linear or logarithmic spacings.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setlfsweepstep</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setlfsweepstep(obj, Mode, Step)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setLFSweepStep', session, Mode, Step);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the step width with the linear or logarithmic sweep.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setlfvoltage</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setlfvoltage(obj, Voltage)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setLFVoltage', session, Voltage);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the voltage of the LF-output.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setpowertocorrlist</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setpowertocorrlist(obj, Power, Size)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPowerToCorrList', session, Power, Size);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the power data for the table.
+</Description>
+            </Method>
+            <Method>
+               <Name>setpulsedelay</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setpulsedelay(obj, Delay)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPulseDelay', session, Delay);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function specifies the time from the start of the period to the first edge of the pulse.
+
+Note:
+
+This function is available with option SML-B3 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setpulseperiod</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setpulseperiod(obj, Period)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPulsePeriod', session, Period);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the pulse period.
+
+Note:
+
+This function is available with option SML-B3 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setpulsepolarity</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setpulsepolarity(obj, Polarity)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPulsePolarity', session, Polarity);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function determines the polarity of the signal at the PULSE/VIDEO output.
+
+Note:
+
+This function is available with option SML-B3 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setpulsesource</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setpulsesource(obj, Source)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPulseSource', session, Source);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects between pulse generator and video output.
+
+Note:
+
+This function is available with option SML-B3 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setpulsewidth</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setpulsewidth(obj, Width)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPulseWidth', session, Width);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the pulse width.
+
+Note:
+
+This function is available with option SML-B3 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrfattmode</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrfattmode(obj, AttenuationMode)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFAttMode', session, AttenuationMode);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches over the operating mode of the attenuator (Attenuator Mode) at the RF output.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrfcenterfreq</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrfcenterfreq(obj, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFCenterFreq', session, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the sweep range by means of the center frequency.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrfextdividerrange</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrfextdividerrange(obj, State)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFExtDividerRange', session, State);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets activates or deactivates the Extended Divider Range function.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrffreqincrement</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrffreqincrement(obj, Increment)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFFreqIncrement', session, Increment);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the step width for the frequency setting.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrffreqmode</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrffreqmode(obj, OperatingMode)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFFreqMode', session, OperatingMode);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the operating mode.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrffreqmultiplier</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrffreqmultiplier(obj, Multiplier)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFFreqMultiplier', session, Multiplier);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the multiplier of a possible frequency multiplier.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrffreqoffset</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrffreqoffset(obj, Offset)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFFreqOffset', session, Offset);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the frequency offset.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrffreqsweepdwelltime</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrffreqsweepdwelltime(obj, Time)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFFreqSweepDwellTime', session, Time);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the dwell time per frequency step.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrffreqsweepmode</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrffreqsweepmode(obj, SweepMode)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFFreqSweepMode', session, SweepMode);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function specifies the run of the sweep.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrffreqsweepspacing</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrffreqsweepspacing(obj, Spacing)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFFreqSweepSpacing', session, Spacing);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects whether the steps have linear or logarithmic spacings.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrffreqsweepstep</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrffreqsweepstep(obj, Mode, Step)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFFreqSweepStep', session, Mode, Step);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the step width with the linear sweep or logarithmic sweep.
+
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrflevel</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrflevel(obj, Level)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFLevel', session, Level);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the RF output level in operating mode CW.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrflevelcorrstate</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrflevelcorrstate(obj, CorrectionState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFLevelCorrState', session, CorrectionState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets RF Level Correction State.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrflevelincrement</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrflevelincrement(obj, Increment)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFLevelIncrement', session, Increment);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the step width for the level setting.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrflevellimit</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrflevellimit(obj, Limit)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFLevelLimit', session, Limit);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function limits the maximum RF output level in operating mode CW and SWEEP.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrflevelmode</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrflevelmode(obj, OperatingMode)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFLevelMode', session, OperatingMode);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the operating mode.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrfleveloffset</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrfleveloffset(obj, Offset)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFLevelOffset', session, Offset);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function defines the constant level offset.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrflevelreset</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrflevelreset(obj, ResetState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFLevelReset', session, ResetState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the effect of the recall function on the RF level.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrflevelsweepdwelltime</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrflevelsweepdwelltime(obj, Time)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFLevelSweepDwellTime', session, Time);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the dwell time per level step.
+
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrflevelsweepmanual</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrflevelsweepmanual(obj, Level)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFLevelSweepManual', session, Level);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the level value for manual sweep.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrflevelsweepmode</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrflevelsweepmode(obj, SweepMode)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFLevelSweepMode', session, SweepMode);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function specifies the sweep mode.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrflevelsweepspacing</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrflevelsweepspacing(obj, Spacing)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFLevelSweepSpacing', session, Spacing);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function defines that the sweep steps have logarithmic spacings.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrflevelsweepstep</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrflevelsweepstep(obj, Step)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFLevelSweepStep', session, Step);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function defines the step width factor for logarithmic sweeps.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrfoutpowonstate</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrfoutpowonstate(obj, OutputState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFOutPowOnState', session, OutputState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects the state of the RF output after power-on of the unit. It only exists for the RF output.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrfoutputstate</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrfoutputstate(obj, OutputState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFOutputState', session, OutputState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches on or off the RF output.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrfspanfreq</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrfspanfreq(obj, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFSpanFreq', session, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function specifies the frequency range for the sweep.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrfstartfreq</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrfstartfreq(obj, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFStartFreq', session, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the starting value of the frequency for the sweep operation.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrfstartlevel</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrfstartlevel(obj, Level)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFStartLevel', session, Level);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the staring value for a level sweep.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrfstopfreq</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrfstopfreq(obj, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFStopFreq', session, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the final value of the frequency for the sweep operation.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrfstopfreqlevel</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrfstopfreqlevel(obj, Level)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFStopFreqLevel', session, Level);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the final value for a level sweep.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrfsweepfreqmanual</Name>
+               <Location>lowlevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrfsweepfreqmanual(obj, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFSweepFreqManual', session, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the frequency in manual sweep mode.
+
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>lowlevelammodulation</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="LowLevelAMModulation1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>setamdepth</Name>
+               <Location>lowlevelammodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setamdepth(obj, Depth)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setAMDepth', session, Depth);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the modulation depth in percent.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setamextcoupling</Name>
+               <Location>lowlevelammodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setamextcoupling(obj, ExtInput, Coupling)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setAMExtCoupling', session, ExtInput, Coupling);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects the type of coupling for the external AM input.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setamfreq</Name>
+               <Location>lowlevelammodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setamfreq(obj, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setAMFreq', session, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the modulation frequency.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setamsource</Name>
+               <Location>lowlevelammodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setamsource(obj, ModulationSource)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setAMSource', session, ModulationSource);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects the modulation source.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setamstate</Name>
+               <Location>lowlevelammodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setamstate(obj, AMModState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setAMState', session, AMModState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches on or off the AM modulation.
+
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>lowlevelfmmodulation</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="LowLevelFMModulation1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>setfmband</Name>
+               <Location>lowlevelfmmodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setfmband(obj, Bandwidth)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setFMBand', session, Bandwidth);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects FM bandwidth.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setfmdeviation</Name>
+               <Location>lowlevelfmmodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setfmdeviation(obj, Deviation)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setFMDeviation', session, Deviation);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function specifies the frequency variation caused by the FM.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setfmextcoup</Name>
+               <Location>lowlevelfmmodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setfmextcoup(obj, ExtInput, Coupling)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setFMExtCoup', session, ExtInput, Coupling);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects the type of coupling for the external FM input.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setfmfreq</Name>
+               <Location>lowlevelfmmodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setfmfreq(obj, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setFMFreq', session, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the modulation frequency.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setfmsource</Name>
+               <Location>lowlevelfmmodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setfmsource(obj, ModulationSource)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setFMSource', session, ModulationSource);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects the modulation source.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setfmstate</Name>
+               <Location>lowlevelfmmodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setfmstate(obj, ModState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setFMState', session, ModState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches on or off the FM modulation.
+
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>lowlevelphaseadjustment</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="LowLevelPhaseAdjustment1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>setrefphase</Name>
+               <Location>lowlevelphaseadjustment</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrefphase(obj, PhaseValue)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRefPhase', session, PhaseValue);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets value of the phase of the output signal with respect to a reference signal of the same frequency.
+</Description>
+            </Method>
+            <Method>
+               <Name>setrefphasestate</Name>
+               <Location>lowlevelphaseadjustment</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrefphasestate(obj, RefPhaseState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRefPhaseState', session, RefPhaseState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches reference phase setting on or off.
+</Description>
+            </Method>
+            <Method>
+               <Name>zerorefphase</Name>
+               <Location>lowlevelphaseadjustment</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function zerorefphase(obj)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_zeroRefPhase', session);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the phase value to 0. The phase of output signal will not be changed.
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>lowlevelphasemodulation</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="LowLevelPhaseModulation1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>setphmband</Name>
+               <Location>lowlevelphasemodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setphmband(obj, Bandwidth)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPHMBand', session, Bandwidth);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects PHM bandwidth.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setphmdeviation</Name>
+               <Location>lowlevelphasemodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setphmdeviation(obj, Deviation)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPHMDeviation', session, Deviation);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function specifies the phase variation caused by the PHM.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setphmextcoup</Name>
+               <Location>lowlevelphasemodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setphmextcoup(obj, Coupling)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPHMExtCoup', session, Coupling);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects the type of coupling for the external PHM input.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setphmfreq</Name>
+               <Location>lowlevelphasemodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setphmfreq(obj, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPHMFreq', session, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the modulation frequency.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setphmsource</Name>
+               <Location>lowlevelphasemodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setphmsource(obj, ModulationSource)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPHMSource', session, ModulationSource);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects the modulation source.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setphmstate</Name>
+               <Location>lowlevelphasemodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setphmstate(obj, ModState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPHMState', session, ModState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches on or off the PHM modulation.
+
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>lowlevelpulsemodulation</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="LowLevelPulseModulation1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>setpmpolar</Name>
+               <Location>lowlevelpulsemodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setpmpolar(obj, Polarity)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPMPolar', session, Polarity);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function specifies the polarity between modulating and modulated signal.
+
+Note:
+
+This function is available with option SML-B3 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setpmsource</Name>
+               <Location>lowlevelpulsemodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setpmsource(obj, ModulationSource)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPMSource', session, ModulationSource);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects the source of the modulating signal.
+
+Note:
+
+This function is available with option SML-B3 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setpmstate</Name>
+               <Location>lowlevelpulsemodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setpmstate(obj, ModState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPMState', session, ModState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches on or off the PM modulation.
+
+Note:
+
+This function is available with option SML-B3 only.
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>lowlevelreferenceoscillator</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="LowLevelReferenceOscillator1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>setrefoscadjval</Name>
+               <Location>lowlevelreferenceoscillator</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrefoscadjval(obj, Value)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRefOscAdjVal', session, Value);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function indicates the frequency correction value (tuning value).
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrefoscrloop</Name>
+               <Location>lowlevelreferenceoscillator</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrefoscrloop(obj, RefLoop)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRefOscRLoop', session, RefLoop);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects the oscillator loop.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrefoscsource</Name>
+               <Location>lowlevelreferenceoscillator</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrefoscsource(obj, RefSource)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRefOscSource', session, RefSource);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects the reference source.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>setrfoscstate</Name>
+               <Location>lowlevelreferenceoscillator</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setrfoscstate(obj, RefOscState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setRFOscState', session, RefOscState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches Reference Oscillator on or off.
+
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>lowlevelstereomodulation</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="LowLevelStereoModulation1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>readrdsresponse</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function [NumBytesRead, ReadBuffer] = readrdsresponse(obj, RDSQuery, NumberBytesToRead)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+RDSQuery = double(RDSQuery);
+NumBytesRead = libpointer('int32Ptr', 0);
+ReadBuffer = libpointer('int8Ptr', repmat(10, 1, 512));
+
+status = calllib(libname, 'rssml_readRDSResponse', session, RDSQuery, NumberBytesToRead, NumBytesRead, ReadBuffer);
+
+NumBytesRead = double(NumBytesRead.Value);
+ReadBuffer = strtrim(char(ReadBuffer.Value));
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sends the RDS query string to the RDS/Stereo coder and immediately gets the response.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereoaribkcode</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereoaribkcode(obj, BKCode)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoARIBKCode', session, BKCode);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects the standard traffic area codes.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereoarideviation</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereoarideviation(obj, ARIDeviation)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoARIDeviation', session, ARIDeviation);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function inputs value of the frequency deviation of the ARI subcarrier.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereoariidentification</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereoariidentification(obj, ARIIdentification)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoARIIdentification', session, ARIIdentification);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects between ARI broadcasting code (DK) and traffic area code (BK).
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereoaristate</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereoaristate(obj, ARIState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoARIState', session, ARIState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function is switching on/off ARI area code and braodcasting code.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereodeviation</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereodeviation(obj, Deviation)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoDeviation', session, Deviation);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets frequency deviation of the stereo signal.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereoextimpedance</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereoextimpedance(obj, Impedance)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoExtImpedance', session, Impedance);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets the input impedances of the analog audio inputs L and R. Both input impedances are switched simultaneously.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereolfgenfrequency</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereolfgenfrequency(obj, LFGenFrequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoLFGenFrequency', session, LFGenFrequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets input value of the frequency of the LF generator.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereomode</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereomode(obj, StereoMode)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoMode', session, StereoMode);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects stereo modulation operating mode.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereopilotdeviation</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereopilotdeviation(obj, PilotDeviation)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoPilotDeviation', session, PilotDeviation);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets value of the frequency deviation of the pilot tone.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereopilotphase</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereopilotphase(obj, PilotPhase)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoPilotPhase', session, PilotPhase);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets value of phase of the pilot tone.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereopilotstate</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereopilotstate(obj, PilotState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoPilotState', session, PilotState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function is switching on/off the pilot tone.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereopreemphasis</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereopreemphasis(obj, Preemphasis)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoPreemphasis', session, Preemphasis);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects the stereo modulation preemphasis.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereordsdataset</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereordsdataset(obj, RDSDataSet)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoRDSDataSet', session, RDSDataSet);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects and activation of the RDS data set.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereordsdeviation</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereordsdeviation(obj, RDSDeviation)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoRDSDeviation', session, RDSDeviation);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets value of the frequency deviation of the RDS subcarrier.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereordsstate</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereordsstate(obj, RDSState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoRDSState', session, RDSState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches on/off RDS function.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereordstrafficannouncement</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereordstrafficannouncement(obj, RDSTrafficAnnouncementState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoRDSTrafficAnnouncement', session, RDSTrafficAnnouncementState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function is switching on/off traffic announcement.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereordstrafficprogram</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereordstrafficprogram(obj, RDSTrafficProgramState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoRDSTrafficProgram', session, RDSTrafficProgramState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function is switching on/off traffic programm.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereosource</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereosource(obj, Source)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoSource', session, Source);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects the modulation sources for stereo modulation (the modulation sources cannot be used simultaneously).
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>setstereostate</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setstereostate(obj, ModState)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setStereoState', session, ModState);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function is switching on/off stereo modulation.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>writerdscommand</Name>
+               <Location>lowlevelstereomodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function writerdscommand(obj, RDSCommand)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+RDSCommand = double(RDSCommand);
+
+status = calllib(libname, 'rssml_writeRDSCommand', session, RDSCommand);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sends the RDS setting strings to the RDS/Stereo coder.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>pulsevghzoutput</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="PulseVGHzOutput1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>configpulseoutput</Name>
+               <Location>pulsevghzoutput</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configpulseoutput(obj, Polarity, PulsePeriod, PulseWidth, PulseDelay)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_configPulseOutput', session, Polarity, PulsePeriod, PulseWidth, PulseDelay);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures Pulse Output.
+
+Note:
+
+This function is available with option SML-B3 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>configvideooutput</Name>
+               <Location>pulsevghzoutput</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configvideooutput(obj, Reserved)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_configVideoOutput', session, Reserved);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures Video Output.
+
+Note:
+
+This function is available with option SML-B3 only.
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>referenceoscillator</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="ReferenceOscillator1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>configurerefoscilator</Name>
+               <Location>referenceoscillator</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configurerefoscilator(obj, RefOscState, RefSource, AdjustValue)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_configureRefOscilator', session, RefOscState, RefSource, AdjustValue);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures Reference Oscillator.
+
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>rffrequency</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="RFFrequency1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>configrffreq</Name>
+               <Location>rffrequency</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configrffreq(obj, Frequency, Offset, Multiplier)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_configRFFreq', session, Frequency, Offset, Multiplier);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures RF frequency.
+
+Note:
+
+The frequency of the RF output signal is calculated from the frequency, offset and multiplier values as follows:
+
+    RF output frequency = (frequency – offset)/multiplier
+
+Where frequency is the displayed value, RF output frequency, offset and multiplier are entered values.
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>rffrequencysweep</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="RFFrequencySweep1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>configrffreqsweep</Name>
+               <Location>rffrequencysweep</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configrffreqsweep(obj, SweepMode, StartFrequency, StopFrequency, Increment, DwellTime)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_configRFFreqSweep', session, SweepMode, StartFrequency, StopFrequency, Increment, DwellTime);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures RF frequency sweep.
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>rflevel</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="RFLevel1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>configrflevel</Name>
+               <Location>rflevel</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configrflevel(obj, Level, Offset, Limit)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_configRFLevel', session, Level, Offset, Limit);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures RF Level.
+
+Note:
+
+The level of the RF output signal is calculated from the amplitude and offset as follows:
+
+    RF output level = amplitude - offset
+
+Where amplitude is the displayed value, RF output level and offset are entered values.
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>rflevelcorrection</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="RFLevelCorrection1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>configurerflevelcorr</Name>
+               <Location>rflevelcorrection</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configurerflevelcorr(obj, CorrectionState, CorrectionListName, FrequencyPoints, PowerPoints, NumberOfElements)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+CorrectionListName = double(CorrectionListName);
+
+status = calllib(libname, 'rssml_ConfigureRFLevelCorr', session, CorrectionState, CorrectionListName, FrequencyPoints, PowerPoints, NumberOfElements);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures RF Level Correction.
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>rflevelsweep</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="RFLevelSweep1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>configrflevelsweep</Name>
+               <Location>rflevelsweep</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configrflevelsweep(obj, SweepMode, StartLevel, StopLevel, Step, DwellTime)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_configRFLevelSweep', session, SweepMode, StartLevel, StopLevel, Step, DwellTime);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures RF Level Sweep.
+
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>rfmodulation</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="RFModulation1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>configammodulation</Name>
+               <Location>rfmodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configammodulation(obj, ModulationSource, ModulationDepth, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_configAMModulation', session, ModulationSource, ModulationDepth, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures AM modulation and switches it to on state.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>configfmmodulation</Name>
+               <Location>rfmodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configfmmodulation(obj, ModulationSource, Deviation, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_configFMModulation', session, ModulationSource, Deviation, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures FM modulation and switches it to on state.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>configphmmodulation</Name>
+               <Location>rfmodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configphmmodulation(obj, ModulationSource, Deviation, Frequency)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_configPHMModulation', session, ModulationSource, Deviation, Frequency);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures PHM modulation and switches it to on state.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>configpulsemodulation</Name>
+               <Location>rfmodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configpulsemodulation(obj, SignalSource, Polarity)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_configPulseModulation', session, SignalSource, Polarity);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures PM modulation and switches it to on state.
+
+Note:
+
+This function is available with option SML-B3 only.
+</Description>
+            </Method>
+            <Method>
+               <Name>configstereomodulation</Name>
+               <Location>rfmodulation</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configstereomodulation(obj, MPXDeviation, Source, StereoMode)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_configStereoModulation', session, MPXDeviation, Source, StereoMode);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures Stereo modulation and switches it to on state.
+
+Note:
+
+This function is available with option SML-B5 only.
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>rfoutput</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="RFOutput1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>configrfoutput</Name>
+               <Location>rfoutput</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function configrfoutput(obj, OutputState, AttenuationMode, Reserved)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_configRFOutput', session, OutputState, AttenuationMode, Reserved);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures RF output.
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>trigger</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="Trigger1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>setpulsetrigpolarity</Name>
+               <Location>trigger</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setpulsetrigpolarity(obj, TriggerPolarity)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPulseTrigPolarity', session, TriggerPolarity);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function defines the active level of the gate signal (Normal - Active level = HIGH, Inverted Active level = LOW).
+</Description>
+            </Method>
+            <Method>
+               <Name>setpulsetrigslope</Name>
+               <Location>trigger</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setpulsetrigslope(obj, TriggerSlope)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPulseTrigSlope', session, TriggerSlope);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function selects pulse trigger slope.
+</Description>
+            </Method>
+            <Method>
+               <Name>setpulsetrigsource</Name>
+               <Location>trigger</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setpulsetrigsource(obj, TriggerSource)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setPulseTrigSource', session, TriggerSource);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function specifies the pulse trigger source.
+</Description>
+            </Method>
+            <Method>
+               <Name>setsweeptrigsource</Name>
+               <Location>trigger</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function setsweeptrigsource(obj, Generator, TriggerSource)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_setSweepTrigSource', session, Generator, TriggerSource);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function specifies the sweep trigger source.
+</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+      <Group>
+         <Name>utility</Name>
+         <Description/>
+         <Command/>
+         <Size>1</Size>
+         <Mappings>
+            <ChannelMap Command="Utility1" Index="1"/>
+         </Mappings>
+         <PropertyInfo/>
+         <MethodInfo>
+            <Method>
+               <Name>errorcheckstate</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function errorcheckstate(obj, StateChecking)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_errorCheckState', session, StateChecking);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches state checking of the instrument (reading of the Standard Event Register and checking it for error) status subsystem. Driver functions are using state checking which is by default enabled.
+
+Note:
+
+(1) In debug mode enable state checking.
+
+(2) For better bus throughput and instruments performance disable state checking.
+
+(3) When state checking is disabled driver does not check if correct instrument model or option is used with each of the functions. This might cause unexpected behaviour of the instrument.
+</Description>
+            </Method>
+            <Method>
+               <Name>errormessage</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function [Message] = errormessage(obj, StatusCode)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+Message = libpointer('int8Ptr', repmat(10, 1, 512));
+
+status = calllib(libname, 'rssml_error_message', session, StatusCode, Message);
+
+Message = strtrim(char(Message.Value));
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function takes the Status Code returned by the instrument driver functions, interprets it and returns it as a user readable string. </Description>
+            </Method>
+            <Method>
+               <Name>errorquery</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function [ErrorCode, ErrorMessage] = errorquery(obj)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+ErrorCode = libpointer('int32Ptr', 0);
+ErrorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+
+status = calllib(libname, 'rssml_error_query', session, ErrorCode, ErrorMessage);
+
+ErrorCode = double(ErrorCode.Value);
+ErrorMessage = strtrim(char(ErrorMessage.Value));
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function reads an error code from the instrument's error queue.
+
+</Description>
+            </Method>
+            <Method>
+               <Name>flusherrorqueue</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function flusherrorqueue(obj)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_FlushErrorQueue', session);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function deletes error queue.
+</Description>
+            </Method>
+            <Method>
+               <Name>readinstrdata</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function [ReadBuffer, NumBytesRead] = readinstrdata(obj, NumberBytesToRead)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+ReadBuffer = libpointer('int8Ptr', repmat(10, 1, 512));
+NumBytesRead = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rssml_readInstrData', session, NumberBytesToRead, ReadBuffer, NumBytesRead);
+
+ReadBuffer = strtrim(char(ReadBuffer.Value));
+NumBytesRead = double(NumBytesRead.Value);
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function reads data from the instrument's output buffer and returns it to the specified variable in memory.
+
+Notes:
+
+(1) Because the instrument may return both numeric and text data in response to queries this function returns the data in string format.
+
+(2) If valid data is not available at the instrument's output buffer when this function is called the instrument will hang up and the function will not return until it times out.  If the time-out is disabled this function will hang indefinitely and it may be necessary to reboot the computer to break out.</Description>
+            </Method>
+            <Method>
+               <Name>reset</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function reset(obj)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_reset', session);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function resets the instrument to a known state and sends initialization commands to the instrument that set any necessary programmatic variables such as Headers Off, Short Command form, and Data Transfer Binary to the state necessary for the operation of the instrument driver.
+</Description>
+            </Method>
+            <Method>
+               <Name>revisionquery</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function [InstrumentDriverRevision, FirmwareRevision] = revisionquery(obj)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+InstrumentDriverRevision = libpointer('int8Ptr', repmat(10, 1, 512));
+FirmwareRevision = libpointer('int8Ptr', repmat(10, 1, 512));
+
+status = calllib(libname, 'rssml_revision_query', session, InstrumentDriverRevision, FirmwareRevision);
+
+InstrumentDriverRevision = strtrim(char(InstrumentDriverRevision.Value));
+FirmwareRevision = strtrim(char(FirmwareRevision.Value));
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function returns the revision numbers of the instrument driver and instrument firmware, and tells the user with which  instrument firmware this revision of the driver is compatible. 
+
+
+This instrument driver's Revision Number is "Rev 1.2, 12/2002, CVI 6.0" and is compatible with SML01 Instrument Firmware Revision "2.06".
+</Description>
+            </Method>
+            <Method>
+               <Name>selftest</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function [SelfTestResult, SelfTestMessage] = selftest(obj)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+SelfTestResult = libpointer('int32Ptr', 0);
+SelfTestMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+
+status = calllib(libname, 'rssml_self_test', session, SelfTestResult, SelfTestMessage);
+
+SelfTestResult = double(SelfTestResult.Value);
+SelfTestMessage = strtrim(char(SelfTestMessage.Value));
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function runs the instrument's self test routine and returns the test result(s).
+
+</Description>
+            </Method>
+            <Method>
+               <Name>utilconfigurers232</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function utilconfigurers232(obj, BaudRate, DataBits, StopBits, HardwareHandshake, SoftwareHandshake, Parity)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_utilConfigureRS232', session, BaudRate, DataBits, StopBits, HardwareHandshake, SoftwareHandshake, Parity);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function configures instrument's RS232.
+</Description>
+            </Method>
+            <Method>
+               <Name>utilgetfreesett</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function [Value] = utilgetfreesett(obj)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+Value = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rssml_utilGetFreeSett', session, Value);
+
+Value = double(Value.Value);
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function returns number of free setups.
+</Description>
+            </Method>
+            <Method>
+               <Name>utilgetreg</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function [Value] = utilgetreg(obj, RegisterName)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+Value = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rssml_utilGetReg', session, RegisterName, Value);
+
+Value = double(Value.Value);
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function gets specified value from register.
+</Description>
+            </Method>
+            <Method>
+               <Name>utilrecallsetup</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function utilrecallsetup(obj, RegisterNo)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_utilRecallSetup', session, RegisterNo);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function recalls the specified setup from the instrument's memory.
+</Description>
+            </Method>
+            <Method>
+               <Name>utilsavesetup</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function utilsavesetup(obj, RegisterNo)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_utilSaveSetup', session, RegisterNo);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function stores settings to the setup in instrument's memory.
+</Description>
+            </Method>
+            <Method>
+               <Name>utilsetdisplaymode</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function utilsetdisplaymode(obj, Parameter, State)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_utilSetDisplayMode', session, Parameter, State);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches selected display parameters to on or off.
+</Description>
+            </Method>
+            <Method>
+               <Name>utilsetdisplayupdate</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function utilsetdisplayupdate(obj, DisplayUpdate)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_utilSetDisplayUpdate', session, DisplayUpdate);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function switches on or off the update of all instruments display elements.
+</Description>
+            </Method>
+            <Method>
+               <Name>utilsetgpibaddr</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function utilsetgpibaddr(obj, Address)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_utilSetGPIBAddr', session, Address);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function changes instrument internal GPIB addres.
+
+Note:
+
+Do not use this function within GPIB session otherwise session to the instrument will be lost.
+</Description>
+            </Method>
+            <Method>
+               <Name>utilsetreg</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function utilsetreg(obj, RegisterName, Value)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+
+status = calllib(libname, 'rssml_utilSetReg', session, RegisterName, Value);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function sets specified value to register.
+</Description>
+            </Method>
+            <Method>
+               <Name>utiltest</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function [TestResults] = utiltest(obj, ToTest)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+TestResults = libpointer('int8Ptr', repmat(10, 1, 512));
+
+status = calllib(libname, 'rssml_utilTest', session, ToTest, TestResults);
+
+TestResults = strtrim(char(TestResults.Value));
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function runs selected test.
+</Description>
+            </Method>
+            <Method>
+               <Name>writeinstrdata</Name>
+               <Location>utility</Location>
+               <CapabilityGroup>Base</CapabilityGroup>
+               <Type>MCode</Type>
+               <Code>
+                  <MCode>function writeinstrdata(obj, WriteBuffer)
+
+libname = get(get(obj, 'Parent'), 'DriverName');
+session = get(get(obj, 'Parent'), 'Interface');
+WriteBuffer = double(WriteBuffer);
+
+status = calllib(libname, 'rssml_writeInstrData', session, WriteBuffer);
+
+
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 512));
+	status = calllib(libname, 'rssml_error_message', session, status, errorMessage);
+	errorMessage = strtrim(char(errorMessage.Value));
+	error(sprintf('The instrument returned an error while setting the property value.\n%s', errorMessage))
+end
+
+</MCode>
+               </Code>
+               <Description>This function writes commands and queries to the instrument to modify parameters and query device settings.</Description>
+            </Method>
+         </MethodInfo>
+      </Group>
+   </GroupInfo>
+</MATLABInstrumentDriver>
