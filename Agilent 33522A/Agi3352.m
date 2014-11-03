@@ -55,6 +55,7 @@
     IChannelRepcap.OutputFunction.ArbitraryWaveform.SelectArbWaveform('TestArb');
     IChannelRepcap.Output.Enabled = 1;
     IChannelRepcap2.Output.Enabled = 1;
+    
     %%%---! ARB------%%%%
     
     driver.Close();
